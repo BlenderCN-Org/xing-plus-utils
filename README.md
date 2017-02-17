@@ -14,4 +14,12 @@ Get latest version of xing-api from its repository
     pip install git+https://github.com/sculove/xing-plus
 
 ## Xing-plus utils
-We 
+Download the repository with git
+
+    git clone https://github.com/jinhwanlazy/xing-plus-utils
+
+# Usage
+Scripts under `example` directory describe how to use the library.
+You can run a script with following command at root directory of the repository
+
+    python3 -m example.00_login

@@ -62,3 +62,6 @@ target/
 *.swp
 *.*~
 *.ipynb
+
+# passwords
+credential.conf

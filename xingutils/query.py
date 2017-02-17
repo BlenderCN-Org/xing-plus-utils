@@ -1,6 +1,7 @@
-import os
+from xing.xaquery import Query as _Query
 from xing.logger import Logger
 import pandas as pd
+import os
 log = Logger(__name__)
 
 
@@ -160,3 +161,32 @@ class TR:
     def input_dataframe(self):
         return pd.DataFrame(
             _tr_raw[self.code]['blocks'][self._find_in_block()]['member'])
+
+
+def _keep_requester_unique(cls):
+    instances = {}
+
+    def getinstance(query):
+        if query in trname2code:
+            query = trname2code[query]
+        if query not in queries:
+            log.critical("request not defined", query)
+            raise KeyError()
+        if query not in instances:
+            instances[query] = cls(query)
+        return instances[query]
+    return getinstance
+
+
+@_keep_requester_unique
+class Query:
+    def __init__(self, trcode):
+        self.query = _Query(trcode)
+        self.tr = TR(trcode)
+
+    def help(self):
+        print("Inputs:")
+        print(self.tr.input_dataframe())
+
+    def send(self, **args):
+        return self.query.request(self.tr.in_blocks(**args), self.tr.out_blocks())
